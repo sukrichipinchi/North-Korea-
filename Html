@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>North Korea Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #00aaff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0088cc;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="quiz-container">
+    <h1>North Korea Quiz</h1>
+    <p><strong>By Sukrit Joshi</strong></p>
+    <button onclick="startQuiz()">Start Quiz</button>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        round: "📍 Round 1: Location",
+        question: "Where is North Korea located?",
+        options: ["South America", "Europe", "East Asia", "Africa"],
+        answer: "East Asia"
+      },
+      {
+        question: "What is the capital of North Korea?",
+        options: ["Seoul", "Pyongyang", "Tokyo", "Beijing"],
+        answer: "Pyongyang"
+      },
+      {
+        question: "Which country borders North Korea to the south?",
+        options: ["China", "Russia", "South Korea", "Japan"],
+        answer: "South Korea"
+      },
+      {
+        round: "👥 Round 2: Population & Economy",
+        question: "What is the estimated population of North Korea (2020s)?",
+        options: ["5 million", "25 million", "100 million", "50 million"],
+        answer: "25 million"
+      },
+      {
+        question: "Which of these industries is important to North Korea’s economy?",
+        options: ["Tourism", "Technology", "Mining", "Fashion"],
+        answer: "Mining"
+      },
+      {
+        question: "What currency is used in North Korea?",
+        options: ["Won", "Yuan", "Dollar", "Ruble"],
+        answer: "Won"
+      },
+      {
+        round: "🏛️ Round 3: Politics & Culture",
+        question: "What type of government does North Korea have?",
+        options: ["Democracy", "Monarchy", "Dictatorship", "Republic"],
+        answer: "Dictatorship"
+      },
+      {
+        question: "Who is the current leader of North Korea (as of 2024)?",
+        options: ["Kim Jong-un", "Kim Il-sung", "Kim Jong-nam", "Moon Jae-in"],
+        answer: "Kim Jong-un"
+      },
+      {
+        question: "Which ideology is strongly followed in North Korea?",
+        options: ["Capitalism", "Communism", "Juche", "Liberalism"],
+        answer: "Juche"
+      },
+      {
+        question: "What is one major cultural feature of North Korea?",
+        options: ["Rock concerts", "Mass games", "Hip hop battles", "Olympics"],
+        answer: "Mass games"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function startQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const quiz = quizData[currentQuestion];
+      let html = '';
+
+      if (quiz.round && (currentQuestion === 0 || quizData[currentQuestion - 1].round !== quiz.round)) {
+        html += `<h2>${quiz.round}</h2>`;
+      }
+
+      html += `
+        <div class="question">
+          <h3>${quiz.question}</h3>
+          <div class="options">
+            ${quiz.options.map(option =>
+              `<button onclick="submitAnswer('${option}')">${option}</button>`).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('quiz-container').innerHTML = html;
+    }
+
+    function submitAnswer(selected) {
+      const correct = quizData[currentQuestion].answer;
+      if (selected === correct) score++;
+
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      document.getElementById('quiz-container').innerHTML = `
+        <h2>🎉 Quiz Completed!</h2>
+        <p>You scored <strong>${score} out of ${quizData.length}</strong></p>
+        <button onclick="startQuiz()">Retry Quiz</button>
+      `;
+    }
+  </script>
+</body>
+</html>
